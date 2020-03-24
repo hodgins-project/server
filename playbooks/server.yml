@@ -97,7 +97,7 @@
       package:
         name:
           - "libselinux"
-          - "libselinux-python"
+          - "python3-libselinux"
           - "setroubleshoot-server"
         state: "present"
       become: true
