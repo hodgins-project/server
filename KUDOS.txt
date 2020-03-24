@@ -1,0 +1,33 @@
+---
+# reference: https://github.com/kudos-txt
+
+project:
+  - name: Hodgins Project
+    code: https://github.com/hodgins-project
+    mail: hello@while-true-do.io
+    chat: freenode \#while-true-do
+
+contributor:
+  - name: daniel-wtd
+    role: Project Owner
+    site: https://while-true-do.io
+    mail: daniel@while-true-do.io
+    chat: freenode:daniel-wtd
+    home: Germany, Dresden
+
+partner:
+  - name: while-true-do.io
+    site: https://while-true-do.io
+    code: https://github.com/while-true-do
+    mail: hello@while-true-do.io
+    chat: freenode \#while-true-do
+
+  - name: KUDOS.txt
+    site: https://kudos-txt.io
+    code: https://github.com/kudos-txt
+    mail: hello@kudos-txt.io
+
+  - name: style-cheat
+    site: https://style-cheat.io
+    code: https://github.com/style-cheat
+    mail: hello@style-cheat.io
