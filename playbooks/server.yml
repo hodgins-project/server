@@ -1,0 +1,230 @@
+---
+- name: "Server Playbook"
+  hosts: "all"
+
+  handlers:
+
+    # tuned
+    - name: "Restart tuned Service"
+      service:
+        name: "tuned.service"
+        state: "restarted"
+      become: true
+      tags:
+        - "tuned"
+        - "package"
+        - "configuration"
+        - "service"
+
+    # pcp
+    - name: "Restart pcp Service"
+      service:
+        name: "{{ item }}"
+        state: "restarted"
+      become: true
+      loop:
+        - "pmcd.service"
+        - "pmlogger.service"
+      tags:
+        - "pcp"
+        - "package"
+        - "configuration"
+        - "service"
+
+    # Podman
+    - name: "Restart podman Service"
+      service:
+        name: "io.podman.socket"
+        state: "restarted"
+      become: true
+      tags:
+        - "podman"
+        - "package"
+        - "configuration"
+        - "service"
+
+    # cockpit
+    - name: "Restart cockpit Service"
+      service:
+        name: "cockpit.socket"
+        state: "restarted"
+      become: true
+      tags:
+        - "cockpit"
+        - "package"
+        - "configuration"
+        - "service"
+
+  tasks:
+
+    # Firewall
+    - name: "Manage firewalld Package"
+      package:
+        name: "firewalld"
+        state: "present"
+      become: true
+      tags:
+        - "firewall"
+        - "package"
+
+    - name: "Manage firewalld Service"
+      service:
+        name: "firewalld.service"
+        state: "started"
+        enabled: true
+      become: true
+      tags:
+        - "firewall"
+        - "service"
+
+    - name: "Manage firewalld Configuration"
+      firewalld:
+        service: "{{ item }}"
+        state: "enabled"
+        zone: "public"
+        immediate: true
+        permanent: true
+      become: true
+      loop:
+        - "ssh"
+        - "cockpit"
+      tags:
+        - "firewall"
+        - "configuration"
+
+    # SELinux
+    - name: "Manage selinux Package"
+      package:
+        name:
+          - "libselinux"
+          - "libselinux-python"
+          - "setroubleshoot-server"
+        state: "present"
+      become: true
+      tags:
+        - "selinux"
+        - "package"
+
+    - name: "Manage selinux Configuration"
+      selinux:
+        policy: "targeted"
+        state: "enforcing"
+      become: true
+      tags:
+        - "selinux"
+        - "configuration"
+
+    # tuned
+    - name: "Manage tuned Package"
+      package:
+        name: "tuned"
+        state: "present"
+      become: true
+      notify:
+        - "Restart tuned Service"
+      tags:
+        - "tuned"
+        - "package"
+
+    - name: "Manage tuned Service"
+      service:
+        name: "tuned.service"
+        state: "started"
+        enabled: true
+      become: true
+      tags:
+        - "tuned"
+        - "service"
+
+    # pcp
+    - name: "Manage pcp Package"
+      package:
+        name: "pcp"
+        state: "present"
+      become: true
+      notify:
+        - "Restart pcp Service"
+      tags:
+        - "pcp"
+        - "package"
+
+    - name: "Manage pcp Service"
+      service:
+        name: "{{ item }}"
+        state: "started"
+        enabled: true
+      become: true
+      loop:
+        - "pmcd"
+        - "pmlogger"
+      tags:
+        - "pcp"
+        - "service"
+
+    # podman
+    - name: "Manage podman Package"
+      package:
+        name: "podman"
+        state: "present"
+      become: true
+      notify:
+        - "Restart podman Service"
+      tags:
+        - "podman"
+        - "package"
+
+    - name: "Manage podman Service"
+      service:
+        name: "io.podman.socket"
+        state: "started"
+        enabled: true
+      become: true
+      tags:
+        - "podman"
+        - "service"
+
+    # cockpit
+    - name: "Manage cockpit Package"
+      package:
+        name:
+          - "cockpit-bridge"
+          - "cockpit-ws"
+          - "cockpit-system"
+          - "cockpit-networkmanager"
+          - "cockpit-packagekit"
+          - "cockpit-pcp"
+          - "cockpit-selinux"
+          - "cockpit-storaged"
+          - "cockpit-sosreport"
+          - "cockpit-kdump"
+        state: "present"
+      become: true
+      notify:
+        - "Restart cockpit Service"
+      tags:
+        - "cockpit"
+        - "package"
+
+    - name: "Manage cockpit WS Configuration"
+      template:
+        src: "cockpit.conf.j2"
+        dest: "/etc/cockpit/cockpit.conf"
+        owner: "root"
+        group: "root"
+        mode: 0644
+      become: true
+      notify:
+        - "Restart cockpit Service"
+      tags:
+        - "cockpit"
+        - "configuration"
+
+    - name: "Manage cockpit-ws Service"
+      service:
+        name: "cockpit.socket"
+        state: "started"
+        enabled: true
+      become: true
+      tags:
+        - "cockpit"
+        - "service"
