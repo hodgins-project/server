@@ -22,6 +22,10 @@
         name: "{{ item }}"
         state: "restarted"
       become: true
+      retries: 3
+      delay: 5
+      register: "result"
+      until: "result | succeeded"
       loop:
         - "pmcd.service"
         - "pmlogger.service"
@@ -163,6 +167,10 @@
         name: "{{ item }}"
         state: "started"
         enabled: true
+      retries: 3
+      delay: 5
+      register: "result"
+      until: "result | succeeded"
       become: true
       loop:
         - "pmcd"
