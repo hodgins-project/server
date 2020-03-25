@@ -56,7 +56,7 @@ should follow these steps:
 - Software Selection
   - choose "Minimal" (when using the Netinstall ISO)
   - choose "Fedora Custom Operating System" (when using Stadard ISO)
-- User Creation:
+- User Creation
   - provide "Full name"
   - provide "User name"
   - check "Make this user administrator"
@@ -76,30 +76,45 @@ The self-hosted deployment does not need any additional host. The hodgins server
 will get all the tools, bells and whistles to manage itself. This may be a good
 idea for getting started and if you do not have access to another Linux machine.
 
-1. Login to your Hodgins Server via SSH
+1. Login to your Hodgins Server via SSH as <your-hodgins-user>.
 2. Update the server
     ```
     $ sudo dnf update -y
     ```
-2. Install ansible
+2. Install ansible and git
     ```
-    $ sudo dnf install -y ansible
+    $ sudo dnf install -y ansible git
     ```
-3. Run the playbook
+3. Clone the repository
     ```
-    $ ansible-playbook localhost
+    git clone https://github.com/hodgins-project/server.git
     ```
-4. Reboot the machine
+4. Edit the inventory
+    ```
+    cp -r <path-to-repository>/inventories/example/ <path-to-inventory>/inventories/<name>/
+    vi <path-to-inventory>/inventories/<name>/inventory
+    ```
+    Configure the proper host
+    ```
+    [server]
+    localhost
+    ```
+5. 3. Run the ansible playbook
+    ```
+    ansible-playbook -i <path-to-inventory>/inventories/<name>/inventory -K playbooks/server.yml
+    ```
+6. Reboot the machine
     ```
     $ sudo systemctl reboot
     ```
-5. Login to the web interface on [https://<your-hodgins-ip>:9090](https://<your-hodgins-ip>:9090)
+7. Login to the web interface on [https://<your-hodgins-ip>:9090](https://<your-hodgins-ip>:9090)
 
 #### Ansible host
 
 If you have access to a dedicated management machine / control host, you can
-manage your Hodgins server from it. The control host needs to have Ansible
-installed (Version 2.7+) and should be able to connect to the hodgins server.
+manage your Hodgins server from it. The control host needs to have git and
+Ansible installed (Version 2.7+) and should be able to connect to the hodgins
+server.
 
 1. Clone the repository
     ```
@@ -117,7 +132,7 @@ installed (Version 2.7+) and should be able to connect to the hodgins server.
     ```
 3. Run the ansible playbook
     ```
-    ansible-playbook -i <path-to-inventory>/inventories/<name>/inventory -k -K -u <your-hodgins-user> playbooks/server.yml
+    ansible-playbook -i <path-to-inventory>/inventories/<name>/inventory -k -K -u hodgins playbooks/server.yml
     ```
 
 ## Usage

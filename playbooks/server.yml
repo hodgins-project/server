@@ -57,6 +57,16 @@
 
   tasks:
 
+    # git
+    - name: "Manage git Package"
+      package:
+        name: "git"
+        state: "present"
+      become: true
+      tags:
+        - "git"
+        - "package"
+
     # Firewall
     - name: "Manage firewalld Package"
       package:
