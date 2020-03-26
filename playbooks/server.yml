@@ -25,7 +25,7 @@
       retries: 3
       delay: 5
       register: "result"
-      until: "result | succeeded"
+      until: "result is succeeded"
       loop:
         - "pmcd.service"
         - "pmlogger.service"
@@ -170,7 +170,7 @@
       retries: 3
       delay: 5
       register: "result"
-      until: "result | succeeded"
+      until: "result is succeeded"
       become: true
       loop:
         - "pmcd"
