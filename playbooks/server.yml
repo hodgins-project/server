@@ -25,7 +25,7 @@
       retries: 3
       delay: 5
       register: "result"
-      until: "result | succeeded"
+      until: "result is succeeded"
       loop:
         - "pmcd.service"
         - "pmlogger.service"
@@ -35,7 +35,7 @@
         - "configuration"
         - "service"
 
-    # Podman
+    # podman
     - name: "Restart podman Service"
       service:
         name: "io.podman.socket"
@@ -71,7 +71,22 @@
         - "git"
         - "package"
 
-    # Firewall
+    # storage
+    - name: "Manage data directory"
+      file:
+        path: "/var/lib/hodgins"
+        state: "directory"
+        owner: "root"
+        group: "root"
+        mode: "0700"
+        setype: "container_var_lib_t"
+      become: true
+      tags:
+        - "storage"
+        - "selinux"
+        - "configuration"
+
+    # firewalld
     - name: "Manage firewalld Package"
       package:
         name: "firewalld"
@@ -106,7 +121,7 @@
         - "firewall"
         - "configuration"
 
-    # SELinux
+    # selinux
     - name: "Manage selinux Package"
       package:
         name:
@@ -170,7 +185,7 @@
       retries: 3
       delay: 5
       register: "result"
-      until: "result | succeeded"
+      until: "result is succeeded"
       become: true
       loop:
         - "pmcd"
@@ -190,6 +205,18 @@
       tags:
         - "podman"
         - "package"
+
+    - name: "Manage podman-network Configuration"
+      copy:
+        src: "87-podman-bridge.conflist"
+        dest: "/etc/cni/net.d/87-podman-bridge.conflist"
+        owner: "root"
+        group: "root"
+        mode: 0644
+      become: true
+      tags:
+        - "podman"
+        - "configuration"
 
     - name: "Manage podman Service"
       service:
@@ -215,6 +242,7 @@
           - "cockpit-storaged"
           - "cockpit-sosreport"
           - "cockpit-kdump"
+          - "cockpit-podman"
         state: "present"
       become: true
       notify:
@@ -223,7 +251,7 @@
         - "cockpit"
         - "package"
 
-    - name: "Manage cockpit WS Configuration"
+    - name: "Manage cockpit-ws Configuration"
       template:
         src: "cockpit.conf.j2"
         dest: "/etc/cockpit/cockpit.conf"
