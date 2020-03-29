@@ -32,6 +32,7 @@
     },
     {
       "type": "firewall",
+      "backend": ""
     },
     {
       "type": "tuning"
