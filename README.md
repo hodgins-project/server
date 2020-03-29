@@ -22,16 +22,23 @@ Hodgins is a small Home Server / Office Server / Lab Server platform. Hodgins
 will provide a way to deploy, develop and manage different applications in
 containers and facilitate upstream software like the below:
 
-- [Fedora](https://getfedora.org/)
-  Fedora will be used as the base OS and the base image for containers. It
-  provides a strong foundation with tools like [firewalld]() or [SELinux]() and
-  is available for x86_64 and aarch64.
-- [Ansible](https://www.ansible.com/)
-- [Podman](https://podman.io/)
-- [Buildah](https://buildah.io/)
-- [Cockpit Project](https://cockpit-project.org/)
-- [Performance Co-Pilot](https://pcp.io/)
-- [tuned](https://tuned-project.org/)
+![hodgins concept](./docs/hodgins-concept.png)
+
+- [Fedora](https://getfedora.org/) will be used as the base OS and the base
+  image for containers. It provides a strong foundation with tools like
+  [firewalld](https://firewalld.org/) and [SELinux](https://selinuxproject.org).
+  Fedora is available for x86_64 and aarch64 and other architectures.
+- [Ansible](https://www.ansible.com/) will be used to provide a convenient way
+  to deploy the server and the services for Hodgins.
+- [Podman](https://podman.io/) is the engine to run the containers for all
+  Hodgins services.
+- [Cockpit Project](https://cockpit-project.org/) provides a graphical frontend
+  to interact with existing containers, systemd services and more.
+- [Performance Co-Pilot](https://pcp.io/) is used to gather performance
+  metrics from the host and the containers. These metrics can be check in
+  cockpit.
+- Additional tools like [tuned](https://tuned-project.org/) are used to tune
+  the system for performance.
 
 ## Requirements
 
