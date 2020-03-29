@@ -71,21 +71,6 @@
         - "git"
         - "package"
 
-    # storage
-    - name: "Manage data directory"
-      file:
-        path: "/var/lib/hodgins"
-        state: "directory"
-        owner: "root"
-        group: "root"
-        mode: "0700"
-        setype: "container_var_lib_t"
-      become: true
-      tags:
-        - "storage"
-        - "selinux"
-        - "configuration"
-
     # firewalld
     - name: "Manage firewalld Package"
       package:
@@ -274,3 +259,18 @@
       tags:
         - "cockpit"
         - "service"
+
+    # storage
+    - name: "Manage data directory"
+      file:
+        path: "/var/lib/hodgins"
+        state: "directory"
+        owner: "root"
+        group: "root"
+        mode: "0700"
+        setype: "container_var_lib_t"
+      become: true
+      tags:
+        - "storage"
+        - "selinux"
+        - "configuration"
