@@ -14,6 +14,11 @@ contributor:
     mail: daniel@while-true-do.io
     chat: freenode:daniel-wtd
     home: Germany, Dresden
+    
+  - name: xXluki98Xx aka lRamm
+    role: Developer
+    site: https://tech.lukas.tofv.de
+    home: Germany, Dresden
 
 partner:
   - name: while-true-do.io
