@@ -1,0 +1,56 @@
+#<------------------------- 72 characters ---------------------------->
+#
+# Thank you so much for your contribution! Below you can find the
+# pattern, some explanation and an example for a proper commit. Please
+# also consider to edit your contribution in the 'KUDOS.txt' in the
+# repository.
+#
+#<------------------------- 72 characters ---------------------------->
+#
+# Pattern:
+#
+# <type>: <subject>
+#
+# <body>
+#
+# <foot>
+#
+#<------------------------- 72 characters ---------------------------->
+#
+# Explanation:
+#
+# <type> can be:
+#   - add (a new feature)
+#   - fix (fixing a known bug)
+#   - sec (fixing a security issue)
+#   - doc (a change in the documentation)
+#   - del (removing something)
+#
+# Additional types are allowed, as long as the are in present form and
+# explain what is going on (feature, bugfix, hotfix, update)
+#
+# <subject> should state what is changing
+#
+# <body> should explain all the needed details
+#
+# <foot> should contain fixes, references or annotations
+#   - fix: #123
+#   - ref: #456
+#   - @name: Please have a look!
+#
+#<------------------------- 72 characters ---------------------------->
+#
+# Example:
+#
+# add: SELinux Compatability
+#
+# For proper support on RHEL, CentOS and Fedora SELinux Support is
+# needed. The policies are now part of the rpm-spec file and tests
+# are added.
+#
+# - add: policy files
+# - doc: new section for SELinux
+# - add: rpm-spec for new policy files
+#
+# - fix: #0815
+# - ref: #4711

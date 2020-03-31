@@ -1,0 +1,7 @@
+---
+# reference: https://yamllint.readthedocs.io/en/stable/
+
+extends: "default"
+
+empty-lines:
+  max-end: 1
