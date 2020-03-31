@@ -4,6 +4,17 @@
 
   handlers:
 
+    # firewalld
+    - name: "Restart firewalld Service"
+      service:
+        name: "firewalld"
+        state: "restarted"
+      become: true
+      tags:
+        - "firewalld"
+        - "package"
+        - "service"
+
     # tuned
     - name: "Restart tuned Service"
       service:
@@ -77,8 +88,10 @@
         name: "firewalld"
         state: "present"
       become: true
+      notify:
+        - "Restart firewalld Service"
       tags:
-        - "firewall"
+        - "firewalld"
         - "package"
 
     - name: "Manage firewalld Service"
@@ -88,7 +101,7 @@
         enabled: true
       become: true
       tags:
-        - "firewall"
+        - "firewalld"
         - "service"
 
     - name: "Manage firewalld Configuration"
@@ -149,6 +162,16 @@
       tags:
         - "tuned"
         - "service"
+
+    # nfs
+    - name: "Manage nfs-utils Package"
+      package:
+        name: "nfs-utils"
+        state: "present"
+      become: true
+      tags:
+        - "nfs"
+        - "package"
 
     # pcp
     - name: "Manage pcp Package"
